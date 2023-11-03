@@ -1,0 +1,30 @@
+name: Continuous Integration
+
+# This workflow is triggered on pushes and pull requests to the repository.
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20' # Use the Node.js version of your project
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Run Jest Tests
+      run: npm test
+
+    - name: Upload JUnit Test Results
+      uses: actions/upload-artifact@v3
+      if: always() # This ensures that the results are uploaded even if the tests fail
+      with:
+        name: junit-results
+        path: ./test-results/junit.xml
