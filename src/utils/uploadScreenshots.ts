@@ -9,9 +9,8 @@ const serviceAccount =
   process.env.FIREBASE_SERVICE_ACCOUNT &&
   JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 const storageBucket = process.env.FIREBASE_STORAGE_BUCKET;
-const uploadToStorage = serviceAccount && storageBucket;
 
-if (uploadToStorage) {
+if (serviceAccount && storageBucket) {
   initializeApp({
     credential: cert(serviceAccount),
     storageBucket: storageBucket,
@@ -21,11 +20,20 @@ if (uploadToStorage) {
 async function uploadScreenshots(
   runId: number | undefined,
   xcresultPath: string | undefined,
-  screenshotsPath: string | undefined = "./screenshots"
+  screenshotsPath: string | undefined = "./debug"
 ): Promise<Screenshot[]> {
-  if (!serviceAccount) {
-    throw new Error("Missing Firebase service account.");
+  let serviceAccount = undefined;
+
+  try {
+    serviceAccount =
+      process.env.FIREBASE_SERVICE_ACCOUNT &&
+      JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+  } catch (error) {
+    console.log("Could not parse Firebase Service Account");
   }
+
+  const storageBucket = process.env.FIREBASE_STORAGE_BUCKET;
+  const uploadToStorage = serviceAccount && storageBucket;
 
   if (!uploadToStorage) {
     throw new Error(
@@ -40,7 +48,7 @@ async function uploadScreenshots(
     );
   }
 
-  const images = await glob("./screenshots/**/*.+(png|gif)");
+  const images = await glob(`${screenshotsPath}/**/*.+(png|gif|jpg)`, {});
 
   return await Promise.all(
     images.map(async (image) => {
