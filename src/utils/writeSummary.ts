@@ -1,6 +1,6 @@
 import fs from "fs";
 import convert from "xml-js";
-import core from "@actions/core";
+import * as core from "@actions/core";
 import { TestCases, TestCase } from "../classes/testCase.js";
 import groupBy from "lodash.groupby";
 
