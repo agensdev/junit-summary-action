@@ -2,10 +2,10 @@ on: [push]
 jobs:
   create_summary:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: Run action with debug/example.xml
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     
     - name: Add JUnit Summary
       uses: ./
