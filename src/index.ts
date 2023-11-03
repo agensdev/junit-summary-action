@@ -3,14 +3,20 @@ import github from "@actions/github";
 import writeSummary from "./utils/writeSummary.js";
 import uploadScreenshots from "./utils/uploadScreenshots.js";
 
-let path = core.getInput("junit-path", { required: true });
-let screenshotPath = core.getInput("screenshots-path", { required: false });
+let path = core.getInput("junit-path", { required: false });
+let screenshotPath: string | undefined = core.getInput("screenshots-path", {
+  required: false,
+});
 let xcresultPath: string | undefined = core.getInput("xcresult-path", {
   required: false,
 });
 
 if (xcresultPath === "") {
   xcresultPath = undefined;
+}
+
+if (screenshotPath === "") {
+  screenshotPath = undefined;
 }
 
 const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT;

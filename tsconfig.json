@@ -8,7 +8,8 @@
     "target": "es2021",
     "esModuleInterop": true,
     "strict": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "types": ["jest"] 
   },
   "include": ["src", "src/index.ts"],
   "exclude": ["dist", "node_modules"]
