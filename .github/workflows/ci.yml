@@ -21,6 +21,11 @@ jobs:
 
     - name: Run Jest Tests
       run: npm test
+    
+    - name: Add JUnit Summary
+      uses: ./
+      with:
+        junit-path: test-results/junit.xml
 
     - name: Upload JUnit Test Results
       uses: actions/upload-artifact@v3
