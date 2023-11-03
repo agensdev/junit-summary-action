@@ -27,22 +27,22 @@ The domain of your Firebase storage bucket, such as `your-app.appspot.com`.
 Below is an example of how to set up this action in your workflow file:
 
 ```yaml
-steps:
-- name: Checkout
-  uses: actions/checkout@v2
-
-- name: Run Tests
-  run: # your test command here
-
-- name: Add JUnit Summary
-  uses: your-github-username/junit-summary-action@v1
-  with:
-    junit-path: path/to/your/report.junit
-    xcresult-path: path/to/your/results.xcresult # Optional
-    screenshots-path: path/to/your/screenshots # Optional
-  env:
-    FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-    FIREBASE_STORAGE_BUCKET: your-app.appspot.com
+on: [push]
+jobs:
+  create_summary:
+    runs-on: ubuntu-latest
+    name: A job to say hello
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    - name: Add JUnit Summary
+      uses: your-github-username/junit-summary-action@v1
+      with:
+        junit-path: src/debug/example.xml
+      env:
+        FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        FIREBASE_STORAGE_BUCKET: your-app.appspot.com
 ```
 
 ## Setting Up Firebase Storage Bucket
