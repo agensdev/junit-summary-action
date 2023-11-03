@@ -1,4 +1,4 @@
-import core from "@actions/core";
+import * as core from "@actions/core";
 import github from "@actions/github";
 import writeSummary from "./utils/writeSummary.js";
 import uploadScreenshots from "./utils/uploadScreenshots.js";
