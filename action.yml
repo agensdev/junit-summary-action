@@ -1,0 +1,17 @@
+name: 'Junit Summary Action'
+description: 'Adds a summary to github action summary based on a junit summary file'
+inputs:
+  junit-path:
+    description: 'Relative path of junit file'
+    required: true
+    default: 'report.junit'
+  xcresult-path:
+    description: 'If applicable, pass the path of your xcresult file. This will automatically upload add screenshots from the test run to the summary.'
+    required: false
+  screenshots-path:
+    description: 'If you have screenshots, pass the path of the folder where they are located. The name of the screenshot must contain the name of the test for it to be linked in the report.'
+    required: false
+  
+runs:
+  using: 'node20'
+  main: 'dist/index.js'

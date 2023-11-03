@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "lib": ["es2021"],
+    "module": "ESNext",
+    "noImplicitReturns": false,
+    "outDir": "dist",
+    "sourceMap": true,
+    "target": "es2021",
+    "esModuleInterop": true,
+    "strict": true,
+    "moduleResolution": "node"
+  },
+  "include": ["src", "src/index.ts"],
+  "exclude": ["dist", "node_modules"]
+}
