@@ -1,7 +1,7 @@
 import fs from "fs";
 import convert from "xml-js";
 import * as core from "@actions/core";
-import { TestCases, TestCase } from "../classes/testCase.js";
+import { TestCases, TestCase } from "../classes/testCase";
 import groupBy from "lodash.groupby";
 
 const writeSummary = async (path: string, screenshots: Screenshot[]) => {

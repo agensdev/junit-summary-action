@@ -4,6 +4,12 @@
   "type": "module",
   "description": "",
   "main": "index.ts",
+  "engines": {
+    "node": ">=20"
+  },
+  "exports": {
+    ".": "./dist/index.js"
+  },
   "scripts": {
     "test": "jest test",
     "start": "node dist/index.js",
