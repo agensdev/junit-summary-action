@@ -24,7 +24,7 @@ describe("writeSummary", () => {
         downloadUrl: "https://url.to/img",
       },
     ];
-    writeSummary("./src/tests/files/example.xml", screenshots);
+    await writeSummary("./src/tests/files/example.xml", screenshots);
     expect(core.summary).toMatchSnapshot();
   });
 });
