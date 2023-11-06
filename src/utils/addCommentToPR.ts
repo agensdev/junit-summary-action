@@ -40,15 +40,19 @@ export default async (result: WriteSummaryResult) => {
     );
 
     // Delete existing comments
-    Promise.all(
-      existingComments.map(async (comment) => {
-        await octokit.rest.issues.deleteComment({
-          owner,
-          repo,
-          comment_id: comment.id,
-        });
-      })
-    );
+    try {
+      await Promise.all(
+        existingComments.map(async (comment) => {
+          await octokit.rest.issues.deleteComment({
+            owner,
+            repo,
+            comment_id: comment.id,
+          });
+        })
+      );
+    } catch (error) {
+      core.setFailed(`Could not delete existing comment: ${error}`);
+    }
 
     // Creating comment
     const response = await octokit.rest.issues.createComment({
