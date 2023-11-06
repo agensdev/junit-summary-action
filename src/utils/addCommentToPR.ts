@@ -14,13 +14,13 @@ export default async (result: WriteSummaryResult) => {
     const pull_request_number = context.payload.pull_request.number;
     const { owner, repo } = context.repo;
     const botUsername = "github-actions";
-    const commentIdentifier = "6bad11c4";
+    const commentIdentifier = "junit-summary-action";
 
     let comment: string;
     if (result.numberOfFailedTests > 0) {
-      comment = `⚠️ ${result.numberOfFailedTests} tests failed. See summary here.`;
+      comment = `⚠️ ${result.numberOfFailedTests} tests failed. See summary here`;
     } else {
-      comment = `✅ All ${result.numberOfPassedTests} tests passed.`;
+      comment = `✅ All ${result.numberOfPassedTests} tests passed`;
     }
 
     const commentBody = `${comment}\n\n<sup>${commentIdentifier}</sup>`;
@@ -35,10 +35,9 @@ export default async (result: WriteSummaryResult) => {
     core.info(`BODY: ${commentBody}`);
 
     // Find an existing comment made by the bot
-    const existingComment = comments.find(
-      (comment) =>
-        comment.user?.login === botUsername &&
-        comment.body?.includes(`<sup>${commentIdentifier}</sup>`)
+    const existingComment = comments.find((comment) =>
+      //comment.user?.login === botUsername &&
+      comment.body?.includes(commentIdentifier)
     );
 
     if (existingComment) {
