@@ -18,12 +18,12 @@ export default async (result: WriteSummaryResult) => {
 
     let comment: string;
     if (result.numberOfFailedTests > 0) {
-      comment = `⚠️ ${result.numberOfFailedTests} tests failed. See summary here`;
+      comment = `⚠️ ${result.numberOfFailedTests} tests failed.`;
     } else {
       comment = `✅ All ${result.numberOfPassedTests} tests passed`;
     }
 
-    const commentBody = `*${comment}*\n\n![See entire summary](${getWorkflowRunSummaryUrl()})\n\n<sup>${commentIdentifier}</sup>`;
+    const commentBody = `*${comment}*\n\n[See summary](${getWorkflowRunSummaryUrl()})\n\n<sup>${commentIdentifier}</sup>`;
 
     // Retrieve the list of comments on the pull request
     const { data: comments } = await octokit.rest.issues.listComments({
