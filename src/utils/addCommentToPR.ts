@@ -23,7 +23,7 @@ export default async (result: WriteSummaryResult) => {
       comment = `✅ All ${result.numberOfPassedTests} tests passed.`;
     }
 
-    const commentBody = `<h3>Test Results</h3>${comment}\n\n<sup>${commentIdentifier}</sup>`;
+    const commentBody = `${comment}\n\n<sup>${commentIdentifier}</sup>`;
 
     // Retrieve the list of comments on the pull request
     const { data: comments } = await octokit.rest.issues.listComments({
@@ -31,6 +31,8 @@ export default async (result: WriteSummaryResult) => {
       repo,
       issue_number: pull_request_number,
     });
+
+    core.info(`BODY: ${commentBody}`);
 
     // Find an existing comment made by the bot
     const existingComment = comments.find(
