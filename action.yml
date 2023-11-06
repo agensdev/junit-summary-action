@@ -11,6 +11,9 @@ inputs:
   screenshots-path:
     description: 'If you have screenshots, pass the path of the folder where they are located. The name of the screenshot must contain the name of the test for it to be linked in the report.'
     required: false
+  github-token:
+    description: 'Add this if you want the action to add a comment about the test results.'
+    required: false
   
 runs:
   using: 'node20'
