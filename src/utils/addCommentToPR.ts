@@ -23,7 +23,7 @@ export default async (result: WriteSummaryResult) => {
       comment = `All tests passed.`;
     }
 
-    const commentBody = `${commentIdentifier}\n${comment}`;
+    const commentBody = `${commentIdentifier}\n\n${comment}`;
 
     // Retrieve the list of comments on the pull request
     const { data: comments } = await octokit.rest.issues.listComments({
