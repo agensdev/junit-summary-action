@@ -1,3 +1,4 @@
+[![Continuous Integration](https://github.com/agensdev/junit-summary-action/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/agensdev/junit-summary-action/actions/workflows/ci.yml)
 # Junit Summary Action
 
 This GitHub Action processes JUnit test reports and adds a detailed summary to the GitHub Actions job summary. If provided with `xcresult` or screenshots paths, it can also upload screenshots from the test run and include them in the summary.
