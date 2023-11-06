@@ -14,16 +14,16 @@ export default async (result: WriteSummaryResult) => {
     const pull_request_number = context.payload.pull_request.number;
     const { owner, repo } = context.repo;
     const botUsername = "github-actions";
-    const commentIdentifier = "6bad11c4-7cb3-11ee-b962-0242ac120002";
+    const commentIdentifier = "6bad11c4";
 
     let comment: string;
     if (result.numberOfFailedTests > 0) {
       comment = `${result.numberOfFailedTests} tests failed. See summary here.`;
     } else {
-      comment = `All tests passed.`;
+      comment = `All ${result.numberOfPassedTests} tests passed.`;
     }
 
-    const commentBody = `${commentIdentifier}\n\n${comment}`;
+    const commentBody = `<h3>Test Results</h3>\n${comment}<sup>${commentIdentifier}</sup>\n\n`;
 
     // Retrieve the list of comments on the pull request
     const { data: comments } = await octokit.rest.issues.listComments({
