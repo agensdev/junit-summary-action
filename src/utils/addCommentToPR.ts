@@ -32,7 +32,9 @@ export default async (result: WriteSummaryResult) => {
       issue_number: pull_request_number,
     });
 
-    core.info(`BODY: ${commentBody}`);
+    const bodies = comments.map((comment) => comment.body);
+
+    core.info(`BODY: ${bodies}`);
 
     // Find an existing comment made by the bot
     const existingComment = comments.find(
@@ -40,6 +42,8 @@ export default async (result: WriteSummaryResult) => {
         comment.user?.login === botUsername &&
         comment.body?.endsWith(`<sup>${commentIdentifier}</sup>`)
     );
+
+    core.info(`Existing comment: ${existingComment}`);
 
     if (existingComment) {
       // Update the existing comment
