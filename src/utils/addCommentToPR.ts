@@ -18,9 +18,9 @@ export default async (result: WriteSummaryResult) => {
 
     let comment: string;
     if (result.numberOfFailedTests > 0) {
-      comment = `${result.numberOfFailedTests} tests failed. See summary here.`;
+      comment = `⚠️ ${result.numberOfFailedTests} tests failed. See summary here.`;
     } else {
-      comment = `All ${result.numberOfPassedTests} tests passed.`;
+      comment = `✅ All ${result.numberOfPassedTests} tests passed.`;
     }
 
     const commentBody = `<h3>Test Results</h3>${comment}\n\n<sup>${commentIdentifier}</sup>`;
@@ -36,7 +36,7 @@ export default async (result: WriteSummaryResult) => {
     const existingComment = comments.find(
       (comment) =>
         comment.user?.login === botUsername &&
-        comment.body?.includes(commentIdentifier)
+        comment.body?.includes(`<sup>${commentIdentifier}</sup>`)
     );
 
     if (existingComment) {
