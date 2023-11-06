@@ -35,10 +35,10 @@ jobs:
     name: A job to say hello
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     
     - name: Add JUnit Summary
-      uses: your-github-username/junit-summary-action@v1
+      uses: agensdev/junit-summary-action@v1
       with:
         junit-path: src/debug/example.xml
       env:
