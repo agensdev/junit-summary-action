@@ -25,8 +25,6 @@ export default async (result: WriteSummaryResult) => {
 
     const commentBody = `*${comment}*\n\n![See entire summary](${getWorkflowRunSummaryUrl()})\n\n<sup>${commentIdentifier}</sup>`;
 
-    github.context.job;
-
     // Retrieve the list of comments on the pull request
     const { data: comments } = await octokit.rest.issues.listComments({
       owner,
@@ -43,6 +41,9 @@ export default async (result: WriteSummaryResult) => {
 
     if (existingComment) {
       // Update the existing comment
+      core.info(`Existing comment: ${existingComment}`);
+      core.info(`Existing comment Id: ${existingComment.id}`);
+
       await octokit.rest.issues.updateComment({
         owner,
         repo,
