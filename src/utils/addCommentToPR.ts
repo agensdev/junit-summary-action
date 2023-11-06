@@ -32,9 +32,11 @@ export default async (result: WriteSummaryResult) => {
       issue_number: pull_request_number,
     });
 
-    const bodies = comments.map((comment) => comment.body);
+    const bodies = comments
+      .map((comment) => comment.body)
+      .map((body) => body?.includes(commentIdentifier));
 
-    core.info(`BODY: ${bodies}`);
+    core.info(`Contains: ${bodies}`);
 
     // Find an existing comment made by the bot
     const existingComment = comments.find(
