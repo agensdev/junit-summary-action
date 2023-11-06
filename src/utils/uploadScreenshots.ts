@@ -1,20 +1,30 @@
-import { initializeApp, cert } from "firebase-admin/app";
+import { initializeApp, cert, getApps, getApp } from "firebase-admin/app";
 import { getStorage } from "firebase-admin/storage";
 import { glob } from "glob";
 import { exec } from "@actions/exec";
 import dotenv from "dotenv";
+
 dotenv.config();
 
-const serviceAccount =
-  process.env.FIREBASE_SERVICE_ACCOUNT &&
-  JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
-const storageBucket = process.env.FIREBASE_STORAGE_BUCKET;
+function initializeFirebase() {
+  if (getApps().length === 0) {
+    // checks if any apps have already been initialized
+    const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT
+      ? JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
+      : undefined;
 
-if (serviceAccount && storageBucket) {
-  initializeApp({
-    credential: cert(serviceAccount),
-    storageBucket: storageBucket,
-  });
+    if (!serviceAccount || !process.env.FIREBASE_STORAGE_BUCKET) {
+      throw new Error(
+        "Firebase service account and storage bucket need to be defined"
+      );
+    }
+
+    initializeApp({
+      credential: cert(serviceAccount),
+      storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+    });
+  }
+  return getApp(); // returns the initialized app
 }
 
 async function uploadScreenshots(
@@ -24,13 +34,7 @@ async function uploadScreenshots(
 ): Promise<Screenshot[]> {
   let serviceAccount = undefined;
 
-  try {
-    serviceAccount =
-      process.env.FIREBASE_SERVICE_ACCOUNT &&
-      JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
-  } catch (error) {
-    console.log("Could not parse Firebase Service Account");
-  }
+  initializeFirebase();
 
   const storageBucket = process.env.FIREBASE_STORAGE_BUCKET;
   const uploadToStorage = serviceAccount && storageBucket;
@@ -73,6 +77,7 @@ async function getScreenshotsFromXcresult(
 }
 
 async function upload(path: string, destinationPath: string): Promise<string> {
+  initializeFirebase();
   const bucket = getStorage().bucket();
   await bucket.upload(path, { destination: destinationPath });
   const file = bucket.file(destinationPath);
