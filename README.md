@@ -40,6 +40,7 @@ jobs:
       uses: your-github-username/junit-summary-action@v1
       with:
         junit-path: src/debug/example.xml
+        github-token: ${{ secrets.GITHUB_TOKEN }}
       env:
         FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         FIREBASE_STORAGE_BUCKET: your-app.appspot.com

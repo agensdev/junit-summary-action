@@ -26,6 +26,7 @@ jobs:
       uses: ./
       with:
         junit-path: test-results/junit.xml
+        github-token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Upload JUnit Test Results
       uses: actions/upload-artifact@v3

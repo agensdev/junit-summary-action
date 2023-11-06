@@ -4,7 +4,10 @@ import * as core from "@actions/core";
 import { TestCases, TestCase } from "../classes/testCase";
 import groupBy from "lodash.groupby";
 
-const writeSummary = async (path: string, screenshots: Screenshot[]) => {
+const writeSummary = async (
+  path: string,
+  screenshots: Screenshot[]
+): Promise<WriteSummaryResult> => {
   const file = fs.readFileSync(path);
 
   const document = convert.xml2js(file.toString(), {
@@ -132,6 +135,15 @@ const writeSummary = async (path: string, screenshots: Screenshot[]) => {
   core.setOutput("passPercent", mergedTestCases.passPercent);
 
   await core.summary.write();
+
+  return {
+    numberOfTests: mergedTestCases.numberOfTests,
+    numberOfPassedTests: mergedTestCases.numberOfPassedTests,
+    numberOfFailedTests: mergedTestCases.numberOfFailedTests,
+    numberOfSkippedTests: mergedTestCases.numberOfSkippedTests,
+    testSummary: mergedTestCases.testSummary,
+    passPercent: mergedTestCases.passPercent,
+  };
 };
 
 const headerRow = [
