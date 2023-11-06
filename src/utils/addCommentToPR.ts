@@ -23,7 +23,7 @@ export default async (result: WriteSummaryResult) => {
       comment = `✅ All ${result.numberOfPassedTests} tests passed`;
     }
 
-    const commentBody = `*${comment}*\n\n[See summary](${getWorkflowRunSummaryUrl()})\n\n<sup>${commentIdentifier}</sup>`;
+    const commentBody = `**${comment}**\n\n[See entire summary](${getWorkflowRunSummaryUrl()})\n\n<sup>${commentIdentifier}</sup>`;
 
     // Retrieve the list of comments on the pull request
     const { data: comments } = await octokit.rest.issues.listComments({
@@ -33,34 +33,29 @@ export default async (result: WriteSummaryResult) => {
     });
 
     // Find an existing comment made by the bot
-    const existingComment = comments.find(
+    const existingComments = comments.filter(
       (comment) =>
         comment.user?.login === botUsername &&
         comment.body?.endsWith(`<sup>${commentIdentifier}</sup>`)
     );
 
-    if (existingComment) {
-      // Update the existing comment
-      core.info(`Existing comment: ${existingComment}`);
-      core.info(`Existing comment Id: ${existingComment.id}`);
+    // Delete existing comments
+    Promise.all(
+      existingComments.map(async (comment) => {
+        await octokit.rest.issues.deleteComment({
+          owner,
+          repo,
+          comment_id: comment.id,
+        });
+      })
+    );
 
-      await octokit.rest.issues.updateComment({
-        owner,
-        repo,
-        comment_id: existingComment.id,
-        body: commentBody,
-      });
-      core.info(`Updated comment: ${existingComment.html_url}`);
-    } else {
-      // Create a new comment
-      const response = await octokit.rest.issues.createComment({
-        owner,
-        repo,
-        issue_number: pull_request_number,
-        body: commentBody,
-      });
-      core.info(`Created new comment: ${response.data.html_url}`);
-    }
+    const response = await octokit.rest.issues.createComment({
+      owner,
+      repo,
+      issue_number: pull_request_number,
+      body: commentBody,
+    });
   } catch (error) {
     core.setFailed(`Action failed with error: ${error}`);
   }
