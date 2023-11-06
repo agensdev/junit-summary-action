@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`writeSummary should write the summary correctly for given test cases, no screenshots 1`] = `
+exports[`writeSummary should write the summary correctly, failure, no screenshots 1`] = `
 Summary {
   "_buffer": "<h1>Test results</h1>
 <h2>Summary</h2>
@@ -11,11 +11,30 @@ Summary {
 <h3>ExampleUITests</h3>
 <table><tr><th>Test name</th><th>Time elapsed</th><th>Result</th></tr><tr><td><a href="#exampleuitests-testexample">testExample</a></td><td>10.8 s</td><td>❌</td></tr></table>
 ",
-  "_filePath": "./debug/summary.md",
+  "write": [MockFunction] {
+    "calls": [
+      [
+        {
+          "overwrite": true,
+        },
+      ],
+      [],
+    ],
+    "results": [
+      {
+        "type": "return",
+        "value": Promise {},
+      },
+      {
+        "type": "return",
+        "value": Promise {},
+      },
+    ],
+  },
 }
 `;
 
-exports[`writeSummary should write the summary correctly for given test cases, with screenshots 1`] = `
+exports[`writeSummary should write the summary correctly, failure, with screenshots 1`] = `
 Summary {
   "_buffer": "<h1>Test results</h1>
 <h2>Summary</h2>
@@ -27,6 +46,64 @@ Summary {
 <h3>ExampleUITests</h3>
 <table><tr><th>Test name</th><th>Time elapsed</th><th>Result</th></tr><tr><td><a href="#exampleuitests-testexample">testExample</a></td><td>10.8 s</td><td>❌</td></tr></table>
 ",
-  "_filePath": "./debug/summary.md",
+  "write": [MockFunction] {
+    "calls": [
+      [
+        {
+          "overwrite": true,
+        },
+      ],
+      [],
+    ],
+    "results": [
+      {
+        "type": "return",
+        "value": Promise {},
+      },
+      {
+        "type": "return",
+        "value": Promise {},
+      },
+    ],
+  },
+}
+`;
+
+exports[`writeSummary should write the summary correctly, success, no screenshots 1`] = `
+Summary {
+  "_buffer": "<h1>Test results</h1>
+<h2>Summary</h2>
+<table><tr><td><strong>Overall result</strong></td><td>✅</td></tr><tr><td><strong>Total fails</strong></td><td>0</td></tr><tr><td><strong>Total skipped</strong></td><td>0</td></tr><tr><td><strong>Total tests</strong></td><td>4</td></tr></table>
+<h2>uploadScreenshots</h2>
+<h3>uploadScreenshots throws an error if the Firebase service account is missing</h3>
+<table><tr><th>Test name</th><th>Time elapsed</th><th>Result</th></tr><tr><td>uploadScreenshots throws an error if the Firebase service account is missing</td><td>0.0 s</td><td>✅</td></tr></table>
+<h3>uploadScreenshots successfully uploads screenshots and returns download URLs</h3>
+<table><tr><th>Test name</th><th>Time elapsed</th><th>Result</th></tr><tr><td>uploadScreenshots successfully uploads screenshots and returns download URLs</td><td>0.0 s</td><td>✅</td></tr></table>
+<h2>writeSummary</h2>
+<h3>writeSummary should write the summary correctly, no screenshots</h3>
+<table><tr><th>Test name</th><th>Time elapsed</th><th>Result</th></tr><tr><td>writeSummary should write the summary correctly, no screenshots</td><td>0.0 s</td><td>✅</td></tr></table>
+<h3>writeSummary should write the summary correctly, with screenshots</h3>
+<table><tr><th>Test name</th><th>Time elapsed</th><th>Result</th></tr><tr><td>writeSummary should write the summary correctly, with screenshots</td><td>0.0 s</td><td>✅</td></tr></table>
+",
+  "write": [MockFunction] {
+    "calls": [
+      [
+        {
+          "overwrite": true,
+        },
+      ],
+      [],
+    ],
+    "results": [
+      {
+        "type": "return",
+        "value": Promise {},
+      },
+      {
+        "type": "return",
+        "value": Promise {},
+      },
+    ],
+  },
 }
 `;

@@ -1,4 +1,4 @@
-import fs from "fs";
+import * as fs from "fs";
 import convert from "xml-js";
 import * as core from "@actions/core";
 import { TestCases, TestCase } from "../classes/testCase";

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="1" failures="1">
+    <testsuite name="ExampleTests" tests="1" failures="1" skipped="0" time="65.83285999298096">
+        <properties>
+          <property name="Configuration" value="Configuration 1"/>
+        </properties>
+        <testcase classname="ExampleUITests" name="testExample()" time="10.829154968261719">
+            <failure message="XCTAssertEqual failed: (&quot;expected result&quot;) is not equal to (&quot;unexpected result&quot;) (/path/to/test.swift#CharacterRangeLen=0&amp;EndingLineNumber=15&amp;StartingLineNumber=15)">
+            </failure>
+        </testcase>
+    </testsuite>
+</testsuites>
