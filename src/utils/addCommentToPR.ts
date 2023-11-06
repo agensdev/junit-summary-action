@@ -4,7 +4,7 @@ import { context } from "@actions/github";
 
 export default async (result: WriteSummaryResult) => {
   try {
-    const token = core.getInput("github-token", { required: false });
+    const token = core.getInput("github-token", { required: true });
     const octokit = github.getOctokit(token);
 
     if (!context.payload.pull_request) {
@@ -13,16 +13,51 @@ export default async (result: WriteSummaryResult) => {
 
     const pull_request_number = context.payload.pull_request.number;
     const { owner, repo } = context.repo;
+    const botUsername = "github-actions";
+    const commentIdentifier = "6bad11c4-7cb3-11ee-b962-0242ac120002";
 
-    const comment = result.testSummary;
-    const response = await octokit.rest.issues.createComment({
+    let comment: string;
+    if (result.numberOfFailedTests > 0) {
+      comment = `${result.numberOfFailedTests} tests failed. See summary here.`;
+    } else {
+      comment = `All tests passed.`;
+    }
+
+    const commentBody = `${commentIdentifier}\n${comment}`;
+
+    // Retrieve the list of comments on the pull request
+    const { data: comments } = await octokit.rest.issues.listComments({
       owner,
       repo,
       issue_number: pull_request_number,
-      body: comment,
     });
 
-    core.info(`Comment created: ${response.data.html_url}`);
+    // Find an existing comment made by the bot
+    const existingComment = comments.find(
+      (comment) =>
+        comment.user?.login === botUsername &&
+        comment.body?.includes(commentIdentifier)
+    );
+
+    if (existingComment) {
+      // Update the existing comment
+      await octokit.rest.issues.updateComment({
+        owner,
+        repo,
+        comment_id: existingComment.id,
+        body: commentBody,
+      });
+      core.info(`Updated comment: ${existingComment.html_url}`);
+    } else {
+      // Create a new comment
+      const response = await octokit.rest.issues.createComment({
+        owner,
+        repo,
+        issue_number: pull_request_number,
+        body: commentBody,
+      });
+      core.info(`Created new comment: ${response.data.html_url}`);
+    }
   } catch (error) {
     core.setFailed(`Action failed with error: ${error}`);
   }
