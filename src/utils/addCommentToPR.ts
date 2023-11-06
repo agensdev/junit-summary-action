@@ -32,7 +32,7 @@ export default async (result: WriteSummaryResult) => {
       issue_number: pull_request_number,
     });
 
-    const user = comments.map((comment) => comment.user);
+    const user = comments.map((comment) => comment.user?.login);
 
     core.info(`User: ${user}`);
 
