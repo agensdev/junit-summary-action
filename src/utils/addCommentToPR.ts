@@ -35,9 +35,10 @@ export default async (result: WriteSummaryResult) => {
     core.info(`BODY: ${commentBody}`);
 
     // Find an existing comment made by the bot
-    const existingComment = comments.find((comment) =>
-      //comment.user?.login === botUsername &&
-      comment.body?.includes(commentIdentifier)
+    const existingComment = comments.find(
+      (comment) =>
+        comment.user?.login === botUsername &&
+        comment.body?.endsWith(`<sup>${commentIdentifier}</sup>`)
     );
 
     if (existingComment) {
