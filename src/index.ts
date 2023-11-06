@@ -12,12 +12,20 @@ let xcresultPath: string | undefined = core.getInput("xcresult-path", {
   required: false,
 });
 
+let githubToken: string | undefined = core.getInput("github-token", {
+  required: false,
+});
+
 if (xcresultPath === "") {
   xcresultPath = undefined;
 }
 
 if (screenshotPath === "") {
   screenshotPath = undefined;
+}
+
+if (githubToken === "") {
+  githubToken = undefined;
 }
 
 const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT;
@@ -39,7 +47,9 @@ try {
   }
 
   const result = await writeSummary(path, screenshots);
-  await addCommentToPR(result);
+  if (githubToken) {
+    await addCommentToPR(result);
+  }
 } catch (error) {
   let message = "An unknown error occured.";
   if (error instanceof Error) message = error.message;
