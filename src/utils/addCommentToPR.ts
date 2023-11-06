@@ -13,7 +13,7 @@ export default async (result: WriteSummaryResult) => {
 
     const pull_request_number = context.payload.pull_request.number;
     const { owner, repo } = context.repo;
-    const botUsername = "github-actions";
+    const botUsername = "github-actions[bot]";
     const commentIdentifier = "junit-summary-action";
 
     let comment: string;
@@ -32,18 +32,12 @@ export default async (result: WriteSummaryResult) => {
       issue_number: pull_request_number,
     });
 
-    const user = comments.map((comment) => comment.user?.login);
-
-    core.info(`User: ${user}`);
-
     // Find an existing comment made by the bot
     const existingComment = comments.find(
       (comment) =>
         comment.user?.login === botUsername &&
         comment.body?.endsWith(`<sup>${commentIdentifier}</sup>`)
     );
-
-    core.info(`Existing comment: ${existingComment}`);
 
     if (existingComment) {
       // Update the existing comment
