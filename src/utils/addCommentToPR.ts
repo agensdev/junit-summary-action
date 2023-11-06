@@ -23,7 +23,9 @@ export default async (result: WriteSummaryResult) => {
       comment = `✅ All ${result.numberOfPassedTests} tests passed`;
     }
 
-    const commentBody = `${comment}\n\n<sup>${commentIdentifier}</sup>`;
+    const commentBody = `*${comment}*\n\n![See entire summary](${getWorkflowRunSummaryUrl()})\n\n<sup>${commentIdentifier}</sup>`;
+
+    github.context.job;
 
     // Retrieve the list of comments on the pull request
     const { data: comments } = await octokit.rest.issues.listComments({
@@ -62,3 +64,9 @@ export default async (result: WriteSummaryResult) => {
     core.setFailed(`Action failed with error: ${error}`);
   }
 };
+
+function getWorkflowRunSummaryUrl(): string {
+  const { owner, repo } = context.repo;
+  const runId = context.runId; // This is provided by the GitHub Actions environment
+  return `https://github.com/${owner}/${repo}/actions/runs/${runId}`;
+}
