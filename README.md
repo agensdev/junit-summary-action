@@ -28,23 +28,45 @@ The domain of your Firebase storage bucket, such as `your-app.appspot.com`.
 Below is an example of how to set up this action in your workflow file:
 
 ```yaml
-on: [push]
+name: Continuous Integration
+on:
+  pull_request:
+  push:
+    branches:    
+      - main
 jobs:
-  create_summary:
+  test:
     runs-on: ubuntu-latest
-    name: A job to say hello
+
     steps:
-    - name: Checkout
+    - name: Checkout repository
       uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Run Jest Tests
+      run: npm test
     
     - name: Add JUnit Summary
-      uses: agensdev/junit-summary-action@v1
+      uses: agensdev/junit-summary-action
+      if: always()
       with:
-        junit-path: src/debug/example.xml
+        junit-path: test-results/junit.xml
         github-token: ${{ secrets.GITHUB_TOKEN }}
-      env:
-        FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-        FIREBASE_STORAGE_BUCKET: your-app.appspot.com
+
+    - name: Upload JUnit Test Results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: junit-results
+        path: ./test-results/junit.xml
+
 ```
 
 ## Setting Up Firebase Storage Bucket
