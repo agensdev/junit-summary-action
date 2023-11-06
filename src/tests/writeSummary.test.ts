@@ -51,6 +51,7 @@ jest.mock("fs", () => ({
       return mockXmlSuccess;
     }
   }),
+  existsSync: jest.fn(),
   promises: {
     access: jest.fn().mockImplementation(() => Promise.resolve()),
   },
