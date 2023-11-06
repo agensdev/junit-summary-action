@@ -1,21 +1,27 @@
 import writeSummary from "../utils/writeSummary";
 import * as core from "@actions/core";
-import { TestCase, TestCases } from "../classes/testCase";
 import { expect, jest, describe, beforeEach, it } from "@jest/globals";
+
+jest.spyOn(core.summary, "write").mockImplementation(
+  (options) =>
+    new Promise((resolve, _) => {
+      resolve("" as any);
+    })
+);
 
 describe("writeSummary", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it("should write the summary correctly for given test cases, no screenshots", async () => {
+  it("should write the summary correctly, no screenshots", async () => {
     process.env.GITHUB_STEP_SUMMARY = "./debug/summary.md";
     await core.summary.clear();
-    writeSummary("./src/tests/files/example.xml", []);
+    await writeSummary("./src/tests/files/example.xml", []);
     expect(core.summary).toMatchSnapshot();
   });
 
-  it("should write the summary correctly for given test cases, with screenshots", async () => {
+  it("should write the summary correctly, with screenshots", async () => {
     process.env.GITHUB_STEP_SUMMARY = "./debug/summary.md";
     await core.summary.clear();
     const screenshots: Screenshot[] = [
@@ -24,6 +30,7 @@ describe("writeSummary", () => {
         downloadUrl: "https://url.to/img",
       },
     ];
+
     await writeSummary("./src/tests/files/example.xml", screenshots);
     expect(core.summary).toMatchSnapshot();
   });
