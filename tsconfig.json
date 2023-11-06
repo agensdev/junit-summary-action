@@ -3,7 +3,7 @@
     "lib": ["es2021"],
     "module": "ESNext",
     "noImplicitReturns": false,
-    "outDir": "dist",
+    "outDir": "out",
     "sourceMap": true,
     "target": "es2021",
     "esModuleInterop": true,
@@ -11,6 +11,5 @@
     "moduleResolution": "node",
     "types": ["jest"],
   },
-  "include": ["src", "src/index.ts"],
-  "exclude": ["dist", "node_modules"]
+  "include": ["src", "src/index.ts"]
 }
