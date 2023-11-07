@@ -76,7 +76,7 @@ async function getScreenshotsFromXcresult(
 ) {
   await exec("brew install imagemagick --quiet");
   await exec("brew install chargepoint/xcparse/xcparse --quiet");
-  await exec(`rm -ri ${destinationPath}`);
+  await exec(`rm -rf ${destinationPath}`);
   await exec(`xcparse screenshots --test ${xcresultPath} ${destinationPath}`);
   await exec(`${__dirname}/scripts/extract_screenshots.sh ${destinationPath}`);
 }
