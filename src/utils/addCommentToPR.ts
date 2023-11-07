@@ -8,7 +8,8 @@ export default async (result: WriteSummaryResult) => {
     const octokit = github.getOctokit(token);
 
     if (!context.payload.pull_request) {
-      throw new Error("No pull request found.");
+      // No pull request found.
+      return;
     }
 
     const pull_request_number = context.payload.pull_request.number;
