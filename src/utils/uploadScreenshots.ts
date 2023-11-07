@@ -3,6 +3,9 @@ import { getStorage } from "firebase-admin/storage";
 import { glob } from "glob";
 import { exec } from "@actions/exec";
 import dotenv from "dotenv";
+import path from "path";
+
+const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
