@@ -1,5 +1,6 @@
 import * as core from "@actions/core";
 import github from "@actions/github";
+import { context } from "@actions/github";
 import writeSummary from "./utils/writeSummary.js";
 import uploadScreenshots from "./utils/uploadScreenshots.js";
 import addCommentToPR from "./utils/addCommentToPR.js";
@@ -35,7 +36,7 @@ try {
   let screenshots: Screenshot[] = [];
   if (serviceAccount && storageBucket) {
     screenshots = await uploadScreenshots(
-      github.context.runId,
+      context.runId,
       xcresultPath,
       screenshotPath
     );
