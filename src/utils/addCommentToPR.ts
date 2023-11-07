@@ -8,7 +8,8 @@ export default async (result: WriteSummaryResult) => {
     const octokit = github.getOctokit(token);
 
     if (!context.payload.pull_request) {
-      throw new Error("No pull request found.");
+      // No pull request found.
+      return;
     }
 
     const pull_request_number = context.payload.pull_request.number;
@@ -40,15 +41,19 @@ export default async (result: WriteSummaryResult) => {
     );
 
     // Delete existing comments
-    Promise.all(
-      existingComments.map(async (comment) => {
-        await octokit.rest.issues.deleteComment({
-          owner,
-          repo,
-          comment_id: comment.id,
-        });
-      })
-    );
+    try {
+      await Promise.all(
+        existingComments.map(async (comment) => {
+          await octokit.rest.issues.deleteComment({
+            owner,
+            repo,
+            comment_id: comment.id,
+          });
+        })
+      );
+    } catch (error) {
+      core.setFailed(`Could not delete existing comment: ${error}`);
+    }
 
     // Creating comment
     const response = await octokit.rest.issues.createComment({
