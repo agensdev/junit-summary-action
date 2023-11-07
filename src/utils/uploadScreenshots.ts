@@ -6,16 +6,24 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+function firebaseServiceAccount() {
+  try {
+    return (
+      process.env.FIREBASE_SERVICE_ACCOUNT &&
+      JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
+    );
+  } catch (error) {
+    return undefined;
+  }
+}
+
 function initializeFirebase() {
   if (getApps().length === 0) {
-    // checks if any apps have already been initialized
-    const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT
-      ? JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
-      : undefined;
+    const serviceAccount = firebaseServiceAccount();
 
     if (!serviceAccount || !process.env.FIREBASE_STORAGE_BUCKET) {
       throw new Error(
-        "Firebase service account and storage bucket need to be defined"
+        "In order to upload, you have to set FIREBASE_STORAGE_BUCKET and FIREBASE_SERVICE_ACCOUNT in the environment variables."
       );
     }
 
@@ -32,12 +40,9 @@ async function uploadScreenshots(
   xcresultPath: string | undefined,
   screenshotsPath: string | undefined = "./debug"
 ): Promise<Screenshot[]> {
-  let serviceAccount = undefined;
-
-  initializeFirebase();
-
+  const app = initializeFirebase();
   const storageBucket = process.env.FIREBASE_STORAGE_BUCKET;
-  const uploadToStorage = serviceAccount && storageBucket;
+  const uploadToStorage = app && storageBucket;
 
   if (!uploadToStorage) {
     throw new Error(

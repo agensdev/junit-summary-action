@@ -1,11 +1,13 @@
 import uploadScreenshots from "../utils/uploadScreenshots";
 import { expect, jest, describe, beforeEach, it } from "@jest/globals";
+import { getApps, getApp, App } from "firebase-admin/app";
 
 // Mock the external modules
-jest.mock("firebase-admin/app", () => ({
-  initializeApp: jest.fn(),
-  cert: jest.fn(),
-}));
+jest.mock("firebase-admin/app");
+
+const mockedGetApps = getApps as jest.Mock<typeof getApps>;
+const mockedGetApp = getApp as jest.Mock<typeof getApp>;
+const mockApp: App = { name: "mock", options: {} };
 
 jest.mock("firebase-admin/storage", () => ({
   getStorage: () => ({
@@ -39,7 +41,7 @@ describe("uploadScreenshots", () => {
   it("throws an error if the Firebase service account is missing", async () => {
     // Set environment variables to undefined to simulate the missing service account
     process.env.FIREBASE_SERVICE_ACCOUNT = undefined;
-
+    mockedGetApps.mockReturnValue([]);
     await expect(
       uploadScreenshots(123, "/path/to/xcresult", "/path/to/screenshots")
     ).rejects.toThrow(
@@ -53,13 +55,15 @@ describe("uploadScreenshots", () => {
   });
 
   it("successfully uploads screenshots and returns download URLs", async () => {
+    mockedGetApps.mockReturnValue([mockApp]);
+    mockedGetApp.mockReturnValue(mockApp);
     process.env.FIREBASE_SERVICE_ACCOUNT = JSON.stringify({
       type: "service_account",
     });
     process.env.FIREBASE_STORAGE_BUCKET = "bucket-name";
+
     // Run the function
     const result = await uploadScreenshots(123, undefined, "./debug/");
-
     // Assert that the signed URL is returned
     expect(result).toEqual(
       expect.arrayContaining([
