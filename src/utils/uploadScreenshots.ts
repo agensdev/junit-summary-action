@@ -3,6 +3,7 @@ import { getStorage } from "firebase-admin/storage";
 import { glob } from "glob";
 import { exec } from "@actions/exec";
 import dotenv from "dotenv";
+import * as path from "path";
 
 dotenv.config();
 
@@ -74,11 +75,17 @@ async function getScreenshotsFromXcresult(
   xcresultPath: string,
   destinationPath: string
 ) {
+  const actionPath = process.env.GITHUB_ACTION_PATH;
+  const scriptPath = path.join(
+    actionPath || "",
+    "scripts/extract_screenshots.sh"
+  );
+
   await exec("brew install imagemagick --quiet");
   await exec("brew install chargepoint/xcparse/xcparse --quiet");
   await exec(`rm -rf ${destinationPath}`);
   await exec(`xcparse screenshots --test ${xcresultPath} ${destinationPath}`);
-  await exec(`${__dirname}/scripts/extract_screenshots.sh ${destinationPath}`);
+  await exec(`${scriptPath} ${destinationPath}`);
 }
 
 async function upload(path: string, destinationPath: string): Promise<string> {

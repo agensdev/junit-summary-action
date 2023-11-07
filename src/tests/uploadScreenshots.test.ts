@@ -74,4 +74,29 @@ describe("uploadScreenshots", () => {
       ])
     );
   });
+
+  it("successfully extracts screenshots from xcresult file", async () => {
+    mockedGetApps.mockReturnValue([mockApp]);
+    mockedGetApp.mockReturnValue(mockApp);
+    process.env.FIREBASE_SERVICE_ACCOUNT = JSON.stringify({
+      type: "service_account",
+    });
+    process.env.FIREBASE_STORAGE_BUCKET = "bucket-name";
+
+    // Run the function
+    const result = await uploadScreenshots(
+      123,
+      "./debug/example.xcresult",
+      "./debug/"
+    );
+    // Assert that the signed URL is returned
+    expect(result).toEqual(
+      expect.arrayContaining([
+        {
+          image: "debug/ExampleUITeststestExample.jpg",
+          downloadUrl: "http://example.com/screenshot.png",
+        },
+      ])
+    );
+  });
 });
