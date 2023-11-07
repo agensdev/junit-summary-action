@@ -38,7 +38,7 @@ function initializeFirebase() {
 async function uploadScreenshots(
   runId: number | undefined,
   xcresultPath: string | undefined,
-  screenshotsPath: string | undefined = "./debug"
+  screenshotsPath: string | undefined = "./screenshots"
 ): Promise<Screenshot[]> {
   const app = initializeFirebase();
   const storageBucket = process.env.FIREBASE_STORAGE_BUCKET;
