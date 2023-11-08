@@ -75,7 +75,7 @@ async function getScreenshotsFromXcresult(
   destinationPath: string
 ) {
   const scriptPath = path.resolve(
-    `${__dirname}/../../scripts/extract_screenshots.sh`
+    `${__dirname}/../../scripts/scale_screenshots.sh`
   );
   await exec("brew install imagemagick --quiet");
   await exec("brew install chargepoint/xcparse/xcparse --quiet");
