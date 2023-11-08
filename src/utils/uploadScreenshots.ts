@@ -1,6 +1,6 @@
 import { initializeApp, cert, getApps, getApp } from "firebase-admin/app";
 import { getStorage } from "firebase-admin/storage";
-import { glob } from "glob";
+import * as glob from "@actions/glob";
 import { exec } from "@actions/exec";
 import dotenv from "dotenv";
 import * as path from "path";
@@ -58,7 +58,8 @@ async function uploadScreenshots(
     );
   }
 
-  const images = await glob(`${screenshotsPath}/**/*.+(png|gif|jpg)`, {});
+  const globber = await glob.create(`${screenshotsPath}/**/*.+(png|gif|jpg)`);
+  const images = await globber.glob();
 
   return await Promise.all(
     images.map(async (image) => {
