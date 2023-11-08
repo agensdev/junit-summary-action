@@ -69,6 +69,27 @@ jobs:
 
 ```
 
+## Capturing Screenshots in iOS Tests
+
+To include screenshots in your test reports, you need to capture them during your iOS app's test execution. The following code snippet should be added to your iOS project's test files to enable this functionality:
+
+```swift
+override func tearDownWithError() throws {
+    super.tearDownWithError()
+    saveScreenshot()
+}
+
+func saveScreenshot() {
+    let screenshot = XCUIScreen.main.screenshot()
+    let attachment = XCTAttachment(screenshot: screenshot)
+    attachment.lifetime = .deleteOnSuccess
+    attachment.name = "failure"
+    add(attachment)
+}
+```
+
+Include this code in your test class to take a screenshot whenever a test fails. By overriding tearDownWithError, the method saveScreenshot() is called after each test execution, allowing the screenshot to be taken if there is an error.
+
 ## Setting Up Firebase Storage Bucket
 To host screenshots in your summary, you'll need to create a Firebase Storage bucket:
 
