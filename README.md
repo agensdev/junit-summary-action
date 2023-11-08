@@ -10,7 +10,7 @@ This GitHub Action processes JUnit test reports and adds a detailed summary to t
 **Default:** `report.junit`
 
 ### `xcresult-path`
-The path to your `xcresult` file. Providing this will automatically upload and add screenshots from the test run to the summary.
+The path to your `xcresult` file. Providing this will automatically upload and add screenshots from the test run to the summary. This is only supported on macos runners. Make sure to use `runs-on: macos-latest` or self-hosted mac runner when you use this.
 
 ### `screenshots-path`
 The path to the folder containing screenshots. The names of the screenshots must contain the name of the test for them to be linked in the report.
