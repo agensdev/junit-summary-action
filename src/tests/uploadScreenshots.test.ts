@@ -22,10 +22,6 @@ jest.mock("firebase-admin/storage", () => ({
   }),
 }));
 
-jest.mock("@actions/exec", () => ({
-  exec: jest.fn(),
-}));
-
 //Mock environment variables
 process.env.FIREBASE_SERVICE_ACCOUNT = JSON.stringify({
   type: "service_account",
@@ -63,7 +59,7 @@ describe("uploadScreenshots", () => {
     process.env.FIREBASE_STORAGE_BUCKET = "bucket-name";
 
     // Run the function
-    const result = await uploadScreenshots(123, undefined, "./debug/");
+    const result = await uploadScreenshots(123, undefined, "./debug");
     // Assert that the signed URL is returned
     expect(result).toEqual(
       expect.arrayContaining([
@@ -73,7 +69,7 @@ describe("uploadScreenshots", () => {
         },
       ])
     );
-  });
+  }, 100000);
 
   it("successfully extracts screenshots from xcresult file", async () => {
     mockedGetApps.mockReturnValue([mockApp]);
@@ -87,8 +83,9 @@ describe("uploadScreenshots", () => {
     const result = await uploadScreenshots(
       123,
       "./debug/example.xcresult",
-      "./debug/"
+      "./debug"
     );
+
     // Assert that the signed URL is returned
     expect(result).toEqual(
       expect.arrayContaining([
@@ -98,5 +95,5 @@ describe("uploadScreenshots", () => {
         },
       ])
     );
-  });
+  }, 100000);
 });
