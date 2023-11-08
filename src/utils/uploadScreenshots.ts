@@ -3,7 +3,9 @@ import { getStorage } from "firebase-admin/storage";
 import { glob } from "glob";
 import dotenv from "dotenv";
 import * as path from "path";
-import { exec } from "child_process";
+import * as util from "util";
+
+const exec = util.promisify(require("child_process").exec);
 
 dotenv.config();
 
