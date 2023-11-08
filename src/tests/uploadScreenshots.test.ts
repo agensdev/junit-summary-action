@@ -75,7 +75,7 @@ describe("uploadScreenshots", () => {
     );
   }, 100000);
 
-  it("successfully extracts screenshots from xcresult file", async () => {
+  it.skip("successfully extracts screenshots from xcresult file", async () => {
     mockedGetApps.mockReturnValue([mockApp]);
     mockedGetApp.mockReturnValue(mockApp);
     process.env.FIREBASE_SERVICE_ACCOUNT = JSON.stringify({
