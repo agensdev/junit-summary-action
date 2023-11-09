@@ -23,7 +23,7 @@ export default async (result: WriteSummaryResult) => {
       comment = `⚠️ ${result.numberOfFailedTests} tests failed.`;
     } else {
       const randomGif = await getRandomGif();
-      comment = `✅ All ${result.numberOfPassedTests} tests passed\n![success](${randomGif})`;
+      comment = `<h2>✅ All ${result.numberOfPassedTests} tests passed</h2>![success](${randomGif})`;
     }
 
     const commentBody = `**${comment}**\n\n[See summary](${getWorkflowRunSummaryUrl()})\n\n<sup>${commentIdentifier}</sup>`;
@@ -71,7 +71,7 @@ export default async (result: WriteSummaryResult) => {
 
 async function getRandomGif() {
   const httpClient = new http.HttpClient();
-  const randomNumber = Math.floor(Math.random() * 31);
+  const randomNumber = Math.floor(Math.random() * 101);
   const res = await httpClient.get(
     `https://api.giphy.com/v1/gifs/search?api_key=PFZ64SqzXhfNwVVWo6iwe1UjZzUomr1j&q=success&limit=1&offset=${randomNumber}&rating=g&lang=en&bundle=messaging_non_clips`
   );
