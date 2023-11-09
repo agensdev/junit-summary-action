@@ -7,6 +7,7 @@ interface TestSuiteElement {
   name: string;
   elements?: TestSuiteElement[];
   attributes?: TestSuiteAttributes;
+  text?: string;
 }
 
 interface TestSuiteAttributes {

@@ -24,9 +24,16 @@ const writeSummary = async (
     testSuitesElements
       .filter((element) => element.name === "testcase")
       .forEach((testSuite) => {
-        const errorMessage = testSuite.elements?.find(
+        const failureElements = testSuite.elements?.find(
           (element) => element.name === "failure"
-        )?.attributes?.message;
+        );
+        let errorMessage =
+          failureElements?.attributes?.message ||
+          "" +
+            testSuite.elements
+              ?.find((element) => element.name === "failure")
+              ?.elements?.map((element) => element.text) ||
+          "";
 
         let status;
 

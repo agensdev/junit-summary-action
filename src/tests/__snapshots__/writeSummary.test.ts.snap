@@ -1,5 +1,45 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`writeSummary should write the summary correctly, failing variation 1, no screenshots 1`] = `
+Summary {
+  "_buffer": "<h1>Test results</h1>
+<h2>Summary</h2>
+<table><tr><td><strong>Overall result</strong></td><td>❌</td></tr><tr><td><strong>Total fails</strong></td><td>1</td></tr><tr><td><strong>Total skipped</strong></td><td>0</td></tr><tr><td><strong>Total tests</strong></td><td>4</td></tr></table>
+<h2>Failing tests</h2>
+<table><tr><td><h3 id='lottery results-lottery results'><a href="#lottery results-lottery results">🔗</a> <code>Lottery results - Lottery results</code></h3></td></tr><tr><td><code>Assertion is false: "Hver tirsdag og fredag!" is visible</code></td></tr></table>
+<h2>Hjem</h2>
+<h3>Profil Name</h3>
+<table><tr><th>Test name</th><th>Time elapsed</th><th>Result</th></tr><tr><td>Profil Name</td><td>11.0 s</td><td>✅</td></tr></table>
+<h3>Nabolaget - Address is shown</h3>
+<table><tr><th>Test name</th><th>Time elapsed</th><th>Result</th></tr><tr><td>Nabolaget - Address is shown</td><td>14.0 s</td><td>✅</td></tr></table>
+<h3>Lottery results</h3>
+<table><tr><th>Test name</th><th>Time elapsed</th><th>Result</th></tr><tr><td><a href="#lottery results-lottery results">Lottery results</a></td><td>70.0 s</td><td>❌</td></tr></table>
+<h3>Eurojackpot - Andelsbank feature toggle</h3>
+<table><tr><th>Test name</th><th>Time elapsed</th><th>Result</th></tr><tr><td>Eurojackpot - Andelsbank feature toggle</td><td>18.0 s</td><td>✅</td></tr></table>
+",
+  "write": [MockFunction] {
+    "calls": [
+      [
+        {
+          "overwrite": true,
+        },
+      ],
+      [],
+    ],
+    "results": [
+      {
+        "type": "return",
+        "value": Promise {},
+      },
+      {
+        "type": "return",
+        "value": Promise {},
+      },
+    ],
+  },
+}
+`;
+
 exports[`writeSummary should write the summary correctly, failure, no screenshots 1`] = `
 Summary {
   "_buffer": "<h1>Test results</h1>

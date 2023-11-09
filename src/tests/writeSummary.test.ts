@@ -46,4 +46,9 @@ describe("writeSummary", () => {
     await writeSummary("src/tests/exampleFiles/success.xml", []);
     expect(core.summary).toMatchSnapshot();
   });
+
+  it("should write the summary correctly, failing variation 1, no screenshots", async () => {
+    await writeSummary("src/tests/exampleFiles/fail-variation1.xml", []);
+    expect(core.summary).toMatchSnapshot();
+  });
 });
