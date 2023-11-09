@@ -12,7 +12,8 @@
   "scripts": {
     "test": "jest test",
     "start": "node dist/index.js",
-    "build": "ncc build src/index.ts --license licenses.txt && cp -r src/scripts dist"
+    "build": "ncc build src/index.ts --license licenses.txt",
+    "build:watch": "npm run build -- --watch"
   },
   "repository": {
     "type": "git",

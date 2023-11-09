@@ -1,14 +1,21 @@
 {
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "tsc: build - tsconfig.json",
-      "type": "typescript",
-      "tsconfig": "tsconfig.json",
-      "problemMatcher": [
-        "$tsc"
-      ],
-      "group": "build"
-    }
-  ]
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "build:watch",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "npm: build:watch",
+			"detail": "npm run build -- --watch"
+		},
+		{
+			"type": "npm",
+			"script": "test",
+			"group": "test",
+			"problemMatcher": [],
+			"label": "npm: test",
+			"detail": "jest test"
+		}
+	]
 }
