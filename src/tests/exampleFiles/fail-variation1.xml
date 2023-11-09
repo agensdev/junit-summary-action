@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <testsuites>
-  <testsuite name="Hjem" device="emulator-5554" tests="4" failures="1" time="113">
+  <testsuite name="Hjem" device="emulator-5554" tests="4" failures="1" time="112">
     <testcase id="Profil Name" name="Profil Name" classname="Profil Name" time="11"/>
     <testcase id="Nabolaget - Address is shown" name="Nabolaget - Address is shown" classname="Nabolaget - Address is shown" time="14"/>
-    <testcase id="Lottery results" name="Lottery results" classname="Lottery results" time="70">
+    <testcase id="Lottery results" name="Lottery results" classname="Lottery results" time="69">
       <failure>Assertion is false: "Hver tirsdag og fredag!" is visible</failure>
     </testcase>
     <testcase id="Eurojackpot - Andelsbank feature toggle" name="Eurojackpot - Andelsbank feature toggle" classname="Eurojackpot - Andelsbank feature toggle" time="18"/>
