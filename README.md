@@ -24,8 +24,17 @@ The path to the folder containing screenshots. The names of the screenshots must
 The domain of your Firebase storage bucket, such as `your-app.appspot.com`.
 
 ## Usage
+Minimal example:
+```yaml
+- name: Add JUnit Summary
+  uses: agensdev/junit-summary-action@v1.0
+  if: always()
+  with:
+    junit-path: test-results/junit.xml
+    github-token: ${{ secrets.GITHUB_TOKEN }}
+```
 
-Below is an example of how to set up this action in your workflow file:
+A complete workflow file could look like this:
 
 ```yaml
 name: Continuous Integration
