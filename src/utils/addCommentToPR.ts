@@ -1,6 +1,7 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 import { context } from "@actions/github";
+import * as http from "@actions/http-client";
 
 export default async (result: WriteSummaryResult) => {
   try {
@@ -19,9 +20,11 @@ export default async (result: WriteSummaryResult) => {
 
     let comment: string;
     if (result.numberOfFailedTests > 0) {
-      comment = `⚠️ ${result.numberOfFailedTests} tests failed.`;
+      const randomGif = await getRandomGif("fail");
+      comment = `<h2>⚠️ ${result.numberOfFailedTests} tests failed</h2>![fail](${randomGif})`;
     } else {
-      comment = `✅ All ${result.numberOfPassedTests} tests passed`;
+      const randomGif = await getRandomGif("success");
+      comment = `<h2>✅ All ${result.numberOfPassedTests} tests passed</h2>![success](${randomGif})`;
     }
 
     const commentBody = `**${comment}**\n\n[See summary](${getWorkflowRunSummaryUrl()})\n\n<sup>${commentIdentifier}</sup>`;
@@ -67,8 +70,64 @@ export default async (result: WriteSummaryResult) => {
   }
 };
 
+async function getRandomGif(search: string) {
+  const httpClient = new http.HttpClient();
+  const randomNumber = Math.floor(Math.random() * 101);
+  const res = await httpClient.get(
+    `https://api.giphy.com/v1/gifs/search?api_key=PFZ64SqzXhfNwVVWo6iwe1UjZzUomr1j&q=${search}&limit=1&offset=${randomNumber}&rating=g&lang=en&bundle=messaging_non_clips`
+  );
+
+  const body = await res.readBody();
+  const responseJson: GiphyResponse = JSON.parse(body);
+  if (responseJson.data.length > 0) {
+    const fixedWidthImage = responseJson.data[0].images.original;
+    return fixedWidthImage.url;
+  }
+  return undefined;
+}
+
 function getWorkflowRunSummaryUrl(): string {
   const { owner, repo } = context.repo;
   const runId = context.runId; // This is provided by the GitHub Actions environment
   return `https://github.com/${owner}/${repo}/actions/runs/${runId}`;
+}
+
+// ChatGPT ftw
+interface GiphyResponse {
+  data: GiphyData[];
+  pagination: Pagination;
+  meta: Meta;
+}
+
+interface GiphyData {
+  type: string;
+  id: string;
+  url: string;
+  images: GiphyImages;
+}
+
+interface GiphyImages {
+  original: ImageFormat;
+  fixed_height: ImageFormat;
+  fixed_height_downsampled: ImageFormat;
+  fixed_height_small: ImageFormat;
+  fixed_width: ImageFormat;
+}
+
+interface ImageFormat {
+  height: string;
+  width: string;
+  url: string;
+}
+
+interface Pagination {
+  total_count: number;
+  count: number;
+  offset: number;
+}
+
+interface Meta {
+  status: number;
+  msg: string;
+  response_id: string;
 }
