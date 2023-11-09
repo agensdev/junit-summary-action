@@ -20,9 +20,10 @@ export default async (result: WriteSummaryResult) => {
 
     let comment: string;
     if (result.numberOfFailedTests > 0) {
-      comment = `⚠️ ${result.numberOfFailedTests} tests failed.`;
+      const randomGif = await getRandomGif("fail");
+      comment = `<h2>⚠️ ${result.numberOfFailedTests} tests failed</h2>![fail](${randomGif})`;
     } else {
-      const randomGif = await getRandomGif();
+      const randomGif = await getRandomGif("success");
       comment = `<h2>✅ All ${result.numberOfPassedTests} tests passed</h2>![success](${randomGif})`;
     }
 
@@ -69,11 +70,11 @@ export default async (result: WriteSummaryResult) => {
   }
 };
 
-async function getRandomGif() {
+async function getRandomGif(search: string) {
   const httpClient = new http.HttpClient();
   const randomNumber = Math.floor(Math.random() * 101);
   const res = await httpClient.get(
-    `https://api.giphy.com/v1/gifs/search?api_key=PFZ64SqzXhfNwVVWo6iwe1UjZzUomr1j&q=success&limit=1&offset=${randomNumber}&rating=g&lang=en&bundle=messaging_non_clips`
+    `https://api.giphy.com/v1/gifs/search?api_key=PFZ64SqzXhfNwVVWo6iwe1UjZzUomr1j&q=${search}&limit=1&offset=${randomNumber}&rating=g&lang=en&bundle=messaging_non_clips`
   );
 
   const body = await res.readBody();

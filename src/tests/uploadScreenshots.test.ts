@@ -68,7 +68,7 @@ describe("uploadScreenshots", () => {
     expect(result).toEqual(
       expect.arrayContaining([
         {
-          downloadUrl: "http://example.com/screenshot.png",
+          downloadUrl: "http://example.com/screenshot.png test",
           image: "src/tests/exampleFiles/ExampleUITeststestExample.jpg",
         },
       ])
