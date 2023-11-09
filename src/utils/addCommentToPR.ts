@@ -79,7 +79,7 @@ async function getRandomGif() {
   const body = await res.readBody();
   const responseJson: GiphyResponse = JSON.parse(body);
   if (responseJson.data.length > 0) {
-    const fixedWidthImage = responseJson.data[0].images.fixed_width;
+    const fixedWidthImage = responseJson.data[0].images.original;
     return fixedWidthImage.url;
   }
   return undefined;
