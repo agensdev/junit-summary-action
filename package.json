@@ -31,6 +31,7 @@
     "@actions/exec": "^1.1.1",
     "@actions/github": "^6.0.0",
     "@actions/glob": "^0.4.0",
+    "@actions/http-client": "^2.2.0",
     "cd": "^0.3.3",
     "dotenv": "^16.3.1",
     "eslint": "^8.52.0",
