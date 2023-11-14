@@ -27,7 +27,7 @@ The domain of your Firebase storage bucket, such as `your-app.appspot.com`.
 Minimal example:
 ```yaml
 - name: Add JUnit Summary
-  uses: agensdev/junit-summary-action@v1.0
+  uses: agensdev/junit-summary-action@1.0
   if: always()
   with:
     junit-path: test-results/junit.xml
@@ -63,7 +63,7 @@ jobs:
       run: npm test
     
     - name: Add JUnit Summary
-      uses: agensdev/junit-summary-action
+      uses: agensdev/junit-summary-action@1.0
       if: always()
       with:
         junit-path: test-results/junit.xml
