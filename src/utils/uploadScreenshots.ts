@@ -4,6 +4,7 @@ import { glob } from "glob";
 import dotenv from "dotenv";
 import * as path from "path";
 import * as util from "util";
+import * as fs from "fs";
 
 const exec = util.promisify(require("child_process").exec);
 
@@ -77,6 +78,11 @@ async function getScreenshotsFromXcresult(
   const scriptPath = path.resolve(
     `${__dirname}/../../scripts/scale_screenshots.sh`
   );
+
+  if (!fs.existsSync(xcresultPath)) {
+    throw new Error("The specified xcresultPath does not exist.");
+  }
+
   await exec("brew install imagemagick --quiet");
   await exec("brew install chargepoint/xcparse/xcparse --quiet");
   await exec(`rm -rf ${destinationPath}`);

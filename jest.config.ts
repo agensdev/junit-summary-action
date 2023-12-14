@@ -7,6 +7,9 @@ module.exports = {
   },
   transformIgnorePatterns: ["node_modules/(?!variables/.*)"],
   modulePathIgnorePatterns: ["out/"],
+  collectCoverage: true,
+  coverageDirectory: "coverage",
+  coverageReporters: ["lcov", "text-summary"],
   reporters: [
     "default",
     [
