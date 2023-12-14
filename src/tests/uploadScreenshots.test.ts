@@ -50,6 +50,38 @@ describe("uploadScreenshots", () => {
     });
   });
 
+  it("handles invalid xcresultPath gracefully", async () => {
+    mockedGetApps.mockReturnValue([mockApp]);
+    mockedGetApp.mockReturnValue(mockApp);
+    process.env.FIREBASE_SERVICE_ACCOUNT = JSON.stringify({
+      type: "service_account",
+    });
+    process.env.FIREBASE_STORAGE_BUCKET = "bucket-name";
+
+    const invalidXcresultPath = "./nonexistent/path";
+    await expect(
+      uploadScreenshots(123, invalidXcresultPath, "./src/tests/exampleFiles")
+    ).rejects.toThrow("The specified xcresultPath does not exist.");
+
+    // Additional assertions can be added here
+  });
+
+  it("throws an error if the Firebase service account is corrupted", async () => {
+    // Set environment variables to undefined to simulate the missing service account
+    process.env.FIREBASE_SERVICE_ACCOUNT = undefined;
+    mockedGetApps.mockReturnValue([]);
+    await expect(
+      uploadScreenshots(123, "/path/to/xcresult", "/path/to/screenshots")
+    ).rejects.toThrow(
+      "In order to upload, you have to set FIREBASE_STORAGE_BUCKET and FIREBASE_SERVICE_ACCOUNT in the environment variables."
+    );
+
+    // Reset the environment variables after the test
+    process.env.FIREBASE_SERVICE_ACCOUNT = JSON.stringify({
+      type: "service_account",
+    });
+  });
+
   it("successfully uploads screenshots and returns download URLs", async () => {
     mockedGetApps.mockReturnValue([mockApp]);
     mockedGetApp.mockReturnValue(mockApp);

@@ -72,7 +72,7 @@ export default async (result: WriteSummaryResult) => {
 
 async function getRandomGif(search: string) {
   const httpClient = new http.HttpClient();
-  const randomNumber = Math.floor(Math.random() * 101);
+  const randomNumber = Math.floor(Math.random() * 201);
   const res = await httpClient.get(
     `https://api.giphy.com/v1/gifs/search?api_key=PFZ64SqzXhfNwVVWo6iwe1UjZzUomr1j&q=${search}&limit=1&offset=${randomNumber}&rating=g&lang=en&bundle=messaging_non_clips`
   );
