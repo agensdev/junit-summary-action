@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="1.482" timestamp="2024-04-17T14:32:58.123436" hostname="11042f96fa41"><testcase classname="narrati.api_server.tests.routes.test_document_routes" name="test_create_item" time="0.124"><failure message="assert 401 == 201&#10; +  where 401 = &lt;Response [401 Unauthorized]&gt;.status_code">client = &lt;starlette.testclient.TestClient object at 0xffff917c8f10&gt;
+
+    def test_create_item(
+            client: TestClient
+    ) -&gt; None:
+        data = {"title": "Document Title", "content": "Document Content", "fhir_context": {}}
+        response = client.post(
+            "/documents/",
+            json=data
+        )
+&gt;       assert response.status_code == 201
+E       assert 401 == 201
+E        +  where 401 = &lt;Response [401 Unauthorized]&gt;.status_code
+
+narrati/api_server/tests/routes/test_document_routes.py:12: AssertionError</failure></testcase></testsuite></testsuites>

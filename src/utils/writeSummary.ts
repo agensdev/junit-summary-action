@@ -14,6 +14,9 @@ const writeSummary = async (
     compact: false,
   });
 
+  core.info("Parsing test results...");
+  core.debug(JSON.stringify(document, null, 2));
+
   const mergedTestCases = new TestCases();
   core.summary.addHeading("Test results");
   const testSuites: TestSuite[] = document.elements[0].elements;
@@ -140,6 +143,8 @@ const writeSummary = async (
   core.setOutput("skipped", mergedTestCases.numberOfSkippedTests);
   core.setOutput("testSummary", mergedTestCases.testSummary);
   core.setOutput("passPercent", mergedTestCases.passPercent);
+
+  core.info("Writing to summary...");
 
   await core.summary.write();
 
