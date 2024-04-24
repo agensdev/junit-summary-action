@@ -17,8 +17,8 @@ let githubToken: string | undefined = core.getInput("github-token", {
   required: false,
 });
 
-let failIfTestsFail: boolean =
-  core.getBooleanInput("fail-if-tests-fail", {
+let failOnError: boolean =
+  core.getBooleanInput("fail-on-error", {
     required: false,
   }) ?? false;
 
@@ -56,7 +56,7 @@ try {
   if (githubToken) {
     await addCommentToPR(result);
   }
-  if (failIfTestsFail && result.numberOfFailedTests > 0) {
+  if (failOnError && result.numberOfFailedTests > 0) {
     core.setFailed("Tests failed.");
   }
 } catch (error) {

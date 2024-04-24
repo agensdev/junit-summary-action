@@ -14,6 +14,9 @@ inputs:
   github-token:
     description: 'Add this if you want the action to add a comment about the test results.'
     required: false
+  fail-on-error:
+    description: 'If you want the action to fail if there are any errors in the junit file.'
+    required: false
   
 runs:
   using: 'node20'
