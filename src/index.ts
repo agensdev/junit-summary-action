@@ -17,6 +17,13 @@ let githubToken: string | undefined = core.getInput("github-token", {
   required: false,
 });
 
+let failIfTestsFail: boolean | undefined = core.getBooleanInput(
+  "fail-if-tests-fail",
+  {
+    required: false,
+  }
+);
+
 if (xcresultPath === "") {
   xcresultPath = undefined;
 }
@@ -50,6 +57,9 @@ try {
   const result = await writeSummary(path, screenshots);
   if (githubToken) {
     await addCommentToPR(result);
+  }
+  if (failIfTestsFail && result.numberOfFailedTests > 0) {
+    core.setFailed("Tests failed.");
   }
 } catch (error) {
   let message = "An unknown error occured.";
