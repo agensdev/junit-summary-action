@@ -86,8 +86,10 @@ async function getScreenshotsFromXcresult(
   await exec("brew install imagemagick --quiet");
   await exec("brew install chargepoint/xcparse/xcparse --quiet");
   await exec(`rm -rf ${destinationPath}`);
-  await exec(`xcparse screenshots --test ${xcresultPath} ${destinationPath}`);
-  await exec(`${scriptPath} ${destinationPath}`);
+
+  // Ensure the script path is safely handled
+  const escapedScriptPath = `"${scriptPath.replace(/"/g, '\\"')}"`;
+  await exec(`${escapedScriptPath} ${destinationPath}`);
 }
 
 async function upload(path: string, destinationPath: string): Promise<string> {
