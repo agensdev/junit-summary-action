@@ -88,7 +88,9 @@ async function getScreenshotsFromXcresult(
   await exec(`rm -rf ${destinationPath}`);
 
   // Ensure the script path is safely handled
-  const escapedScriptPath = `"${scriptPath.replace(/"/g, '\\"')}"`;
+  const escapedScriptPath = scriptPath
+    .replace(/\\/g, "\\\\")
+    .replace(/"/g, '\\"');
   await exec(`${escapedScriptPath} ${destinationPath}`);
 }
 
