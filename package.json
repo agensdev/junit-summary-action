@@ -35,7 +35,7 @@
     "cd": "^0.3.3",
     "dotenv": "^16.3.1",
     "eslint": "^8.52.0",
-    "firebase-admin": "^11.11.0",
+    "firebase-admin": "^12.2.0",
     "glob": "^10.3.10",
     "lodash.groupby": "^4.6.0",
     "rimraf": "^5.0.5",
