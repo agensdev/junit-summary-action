@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import * as path from "path";
 import * as util from "util";
 import * as fs from "fs";
+import { sanitize } from "sanitize-filename-ts";
 
 const exec = util.promisify(require("child_process").exec);
 
@@ -85,13 +86,12 @@ async function getScreenshotsFromXcresult(
 
   await exec("brew install imagemagick --quiet");
   await exec("brew install chargepoint/xcparse/xcparse --quiet");
-  await exec(`rm -rf ${destinationPath}`);
 
-  // Ensure the script path is safely handled
-  const escapedScriptPath = scriptPath
-    .replace(/\\/g, "\\\\")
-    .replace(/"/g, '\\"');
-  await exec(`${escapedScriptPath} ${destinationPath}`);
+  await exec(`rm -rf ${sanitize(destinationPath)}`);
+
+  const sanitizedScriptPath = sanitize(scriptPath);
+  await exec(`xcparse screenshots --test ${xcresultPath} ${destinationPath}`);
+  await exec(`${sanitizedScriptPath} ${destinationPath}`);
 }
 
 async function upload(path: string, destinationPath: string): Promise<string> {
