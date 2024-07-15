@@ -39,7 +39,6 @@
     "glob": "^10.3.10",
     "lodash.groupby": "^4.6.0",
     "rimraf": "^5.0.5",
-    "sanitize-filename-ts": "^1.0.2",
     "typescript": "^5.2.2",
     "xml-js": "^1.6.11"
   },

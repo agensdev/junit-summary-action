@@ -5,7 +5,6 @@ import dotenv from "dotenv";
 import * as path from "path";
 import * as util from "util";
 import * as fs from "fs";
-import { sanitize } from "sanitize-filename-ts";
 
 const exec = util.promisify(require("child_process").exec);
 
@@ -80,13 +79,21 @@ async function getScreenshotsFromXcresult(
     throw new Error("The specified xcresultPath does not exist.");
   }
 
+  if (!fs.existsSync(destinationPath)) {
+    fs.mkdirSync(destinationPath, { recursive: true });
+  }
+
   await exec("brew install imagemagick --quiet");
   await exec("brew install chargepoint/xcparse/xcparse --quiet");
 
   const sanitizedDestinationPath = path.resolve(destinationPath);
+  const sanitizedXcresultPath = path.resolve(xcresultPath);
   await exec(`rm -rf ${sanitizedDestinationPath}`);
-  await exec(`xcparse screenshots --test ${xcresultPath} ${destinationPath}`);
-  await exec(`dist/scale_screenshots.sh ${destinationPath}`);
+  await exec(
+    `xcparse screenshots --test ${sanitizedXcresultPath} ${sanitizedDestinationPath}`
+  );
+  const scriptPath = path.resolve(__dirname, "../../dist/scale_screenshots.sh");
+  await exec(`"${scriptPath}" "${destinationPath}"`, { shell: "/bin/bash" });
 }
 
 async function upload(path: string, destinationPath: string): Promise<string> {
