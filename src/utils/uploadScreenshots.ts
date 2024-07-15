@@ -1,12 +1,13 @@
 import { initializeApp, cert, getApps, getApp } from "firebase-admin/app";
 import { getStorage } from "firebase-admin/storage";
 import { glob } from "glob";
+import { execFile } from "child_process";
+import { promisify } from "util";
 import dotenv from "dotenv";
 import * as path from "path";
-import * as util from "util";
 import * as fs from "fs";
 
-const exec = util.promisify(require("child_process").exec);
+const execFilePromise = promisify(execFile);
 
 dotenv.config();
 
@@ -74,7 +75,7 @@ async function uploadScreenshots(
 async function getScreenshotsFromXcresult(
   xcresultPath: string,
   destinationPath: string
-) {
+): Promise<void> {
   if (!fs.existsSync(xcresultPath)) {
     throw new Error("The specified xcresultPath does not exist.");
   }
@@ -83,17 +84,28 @@ async function getScreenshotsFromXcresult(
     fs.mkdirSync(destinationPath, { recursive: true });
   }
 
-  await exec("brew install imagemagick --quiet");
-  await exec("brew install chargepoint/xcparse/xcparse --quiet");
+  await execFilePromise("brew", ["install", "imagemagick", "--quiet"]);
+  await execFilePromise("brew", [
+    "install",
+    "chargepoint/xcparse/xcparse",
+    "--quiet",
+  ]);
 
   const sanitizedDestinationPath = path.resolve(destinationPath);
   const sanitizedXcresultPath = path.resolve(xcresultPath);
-  await exec(`rm -rf ${sanitizedDestinationPath}`);
-  await exec(
-    `xcparse screenshots --test ${sanitizedXcresultPath} ${sanitizedDestinationPath}`
-  );
+
+  await execFilePromise("rm", ["-rf", sanitizedDestinationPath]);
+  await execFilePromise("xcparse", [
+    "screenshots",
+    "--test",
+    sanitizedXcresultPath,
+    sanitizedDestinationPath,
+  ]);
+
   const scriptPath = path.resolve(__dirname, "../../dist/scale_screenshots.sh");
-  await exec(`"${scriptPath}" "${destinationPath}"`, { shell: "/bin/bash" });
+  await execFilePromise(scriptPath, [sanitizedDestinationPath], {
+    shell: "/bin/bash",
+  });
 }
 
 async function upload(path: string, destinationPath: string): Promise<string> {
