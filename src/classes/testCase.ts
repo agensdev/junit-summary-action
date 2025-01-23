@@ -70,7 +70,7 @@ class TestCases {
     return this.tests.filter((test) => test.status === "skipped");
   }
   get numberOfTests() {
-    return this.tests.length;
+    return this.tests.length - this.numberOfSkippedTests;
   }
   get numberOfFailedTests() {
     return this.failedTests.length;
@@ -89,8 +89,7 @@ class TestCases {
   get passPercent() {
     return Math.floor(
       ((this.numberOfTests -
-        this.numberOfFailedTests -
-        this.numberOfSkippedTests) /
+        this.numberOfFailedTests) /
         this.numberOfTests) *
         100
     );
@@ -115,13 +114,8 @@ class TestCases {
         ">>>" +
         `🎉 No failures!\n✅ All *${this.numberOfPassedTests}* tests completed with success! `
       );
-    } else if (this.numberOfFailedTests !== 0) {
-      return ">>>" + this.failedTestNames.join("\n");
     } else {
-      return (
-        ">>>" +
-        `🎉 No failures!\n✅ *${this.numberOfPassedTests}* tests completed with success!\n⏭️ *${this.numberOfSkippedTests}* tests skipped.\nKeep up the good work! `
-      );
+      return ">>>" + this.failedTestNames.join("\n");
     }
   }
 }
