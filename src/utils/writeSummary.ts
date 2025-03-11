@@ -22,7 +22,7 @@ const writeSummary = async (
   const testSuites: TestSuite[] = document.elements[0].elements;
 
   for (const element of testSuites) {
-    const testSuitesElements = element.elements;
+    const testSuitesElements = element.elements || [];
 
     testSuitesElements
       .filter((element) => element.name === "testcase")

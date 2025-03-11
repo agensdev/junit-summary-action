@@ -111542,7 +111542,7 @@ const writeSummary = async (path, screenshots) => {
     core.summary.addHeading("Test results");
     const testSuites = document.elements[0].elements;
     for (const element of testSuites) {
-        const testSuitesElements = element.elements;
+        const testSuitesElements = element.elements || [];
         testSuitesElements
             .filter((element) => element.name === "testcase")
             .forEach((testSuite) => {
